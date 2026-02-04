@@ -16,7 +16,9 @@ export async function middleware(request: NextRequest) {
     // Use the IP address as the identifier.
     // Note: 'x-forwarded-for' can be spoofed. In a production environment behind a trusted proxy (like Vercel or AWS ALB),
     // this is generally reliable. Consider the security implications for your specific infrastructure.
-    const ip = request.ip ?? request.headers.get('x-forwarded-for') ?? '127.0.0.1';
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
+               request.headers.get('x-real-ip') ??
+               '127.0.0.1';
     
     const now = Date.now();
     
