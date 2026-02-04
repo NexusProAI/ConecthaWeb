@@ -10,6 +10,7 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isLogoHovered, setIsLogoHovered] = useState(false);
+  const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,26 +20,50 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleMouseEnter = (itemName: string) => {
+    if (dropdownTimeout) {
+      clearTimeout(dropdownTimeout);
+      setDropdownTimeout(null);
+    }
+    setActiveDropdown(itemName);
+  };
+
+  const handleMouseLeave = () => {
+    const timeoutId = setTimeout(() => {
+      setActiveDropdown(null);
+    }, 200); // 200ms delay before closing
+    setDropdownTimeout(timeoutId);
+  };
+
   const menuItems = [
     { name: "Home", href: "#" },
-    { name: "Cases", href: "#cases" },
     {
       name: "Soluções",
       href: "#solucoes",
       dropdown: [
-        { name: "Marketing Digital", href: "#solucoes" },
-        { name: "SEO & SEM", href: "#solucoes" },
-        { name: "Social Media", href: "#solucoes" },
-        { name: "Desenvolvimento Web", href: "#solucoes" },
-        { name: "Branding", href: "#solucoes" },
+        { name: "Redes Sociais", href: "#redes-sociais" },
+        { name: "Tráfego Pago", href: "#trafego-pago" },
+        { name: "Criação de Sites", href: "#criacao-de-sites" },
+        { name: "Posicionamento no Google (SEO)", href: "#posicionamento-google" },
+        { name: "Identidade Visual", href: "#identidade-visual" },
+        { name: "E-mail Marketing", href: "#email-marketing" },
+        { name: "Consultoria de Marketing", href: "#consultoria-marketing" },
       ],
     },
     {
       name: "Contatos",
       href: "#contato",
       dropdown: [
-        { name: "Solicitar Proposta", href: "#contato" },
-        { name: "Seja um Parceiro", href: "#contato" },
+        { 
+          name: "Solicitar Proposta", 
+          href: "#contato", 
+          action: () => document.getElementById('solicitar-proposta-btn')?.click() 
+        },
+        { 
+          name: "Seja um Parceiro", 
+          href: "#contato", 
+          action: () => document.getElementById('seja-parceiro-btn')?.click() 
+        },
       ],
     },
   ];
@@ -68,10 +93,8 @@ export default function Navbar() {
               <div
                 key={item.name}
                 className="relative group"
-                onMouseEnter={() =>
-                  item.dropdown && setActiveDropdown(item.name)
-                }
-                onMouseLeave={() => setActiveDropdown(null)}
+                onMouseEnter={() => item.dropdown && handleMouseEnter(item.name)}
+                onMouseLeave={() => item.dropdown && handleMouseLeave()}
               >
                 <a
                   href={item.href}
@@ -86,12 +109,13 @@ export default function Navbar() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
-                    className="absolute top-full left-0 mt-2 w-56 bg-white shadow-xl py-2 border border-gray-100"
+                    className="absolute top-full left-0 mt-2 w-60 bg-white shadow-xl py-2 border border-gray-100"
                   >
-                    {item.dropdown.map((subItem) => (
+                    {item.dropdown.map((subItem: any) => (
                       <a
                         key={subItem.name}
                         href={subItem.href}
+                        onClick={subItem.action}
                         className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
                       >
                         {subItem.name}
@@ -139,10 +163,14 @@ export default function Navbar() {
                   </a>
                   {item.dropdown && (
                     <div className="ml-4 mt-2 space-y-2">
-                      {item.dropdown.map((subItem) => (
+                      {item.dropdown.map((subItem: any) => (
                         <a
                           key={subItem.name}
                           href={subItem.href}
+                          onClick={() => {
+                            subItem.action && subItem.action();
+                            setIsMobileMenuOpen(false); // Close mobile menu on click
+                          }}
                           className="block text-sm text-gray-600 hover:text-blue-600 transition-colors"
                         >
                           {subItem.name}

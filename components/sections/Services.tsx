@@ -5,6 +5,7 @@ import Image from "next/image";
 export default function Services() {
   const services = [
     {
+      id: "redes-sociais",
       name: "Gestão de Redes Sociais",
       subtitle: "",
       color: "#595d6d",
@@ -15,6 +16,7 @@ export default function Services() {
       hoverIcons: ["/facebook.png", "/instagram.png", "/linkedin.png", "/whatsapp.png"],
     },
     {
+      id: "trafego-pago",
       name: "Tráfego Pago",
       subtitle: "(Meta Ads e Google Ads)",
       color: "#aba394",
@@ -25,6 +27,7 @@ export default function Services() {
       hoverIcons: null,
     },
     {
+      id: "criacao-de-sites",
       name: "Criação de Sites Profissionais",
       subtitle: "",
       color: "#616161",
@@ -35,6 +38,7 @@ export default function Services() {
       hoverIcons: null,
     },
     {
+      id: "posicionamento-google",
       name: "Posicionamento no Google",
       subtitle: "(SEO e Google Meu Negócio)",
       color: "#ececec",
@@ -45,6 +49,7 @@ export default function Services() {
       hoverIcons: null,
     },
     {
+      id: "identidade-visual",
       name: "Design Gráfico e Identidade Visual",
       subtitle: "",
       color: "#f3f1ee",
@@ -55,6 +60,7 @@ export default function Services() {
       hoverIcons: null,
     },
     {
+      id: "email-marketing",
       name: "E-mail Marketing e Automação",
       subtitle: "",
       color: "#361922",
@@ -65,6 +71,7 @@ export default function Services() {
       hoverIcons: null,
     },
     {
+      id: "consultoria-marketing",
       name: "Consultoria de Marketing",
       subtitle: "",
       color: "#9ba1ab",
@@ -77,7 +84,7 @@ export default function Services() {
   ];
 
   return (
-    <section className="py-24" style={{ backgroundColor: "#06071c" }} id="solucoes">
+    <section className="pt-24" style={{ backgroundColor: "#06071c" }} id="solucoes">
       {/* Section Title */}
       <div className="text-center mb-16 max-w-3xl mx-auto px-4">
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -96,7 +103,8 @@ export default function Services() {
           {services.map((service, index) => (
             <div
               key={index}
-              className="relative h-[500px] md:h-[650px] lg:h-[750px] group overflow-hidden cursor-pointer flex items-center justify-center"
+              id={service.id}
+              className="relative h-[500px] md:h-[650px] lg:h-[750px] group overflow-hidden cursor-pointer flex items-center justify-center scroll-mt-20"
               style={{ backgroundColor: service.color }}
             >
               {/* Title */}
@@ -118,7 +126,7 @@ export default function Services() {
                   transition-all duration-500 ease-out`}
               >
                 <div className={`flex items-center justify-center gap-24 ${service.hoverImage ? 'flex-col md:flex-row max-w-6xl h-full' : service.hoverIcons ? 'flex-col max-w-3xl' : 'max-w-2xl'}`}>
-                  <div className={`transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100 ${service.hoverImage ? 'text-left md:w-1/2' : 'text-center'}`}>
+                  <div className={`transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100 ${service.hoverImage ? 'text-center md:text-left md:w-1/2' : 'text-center'}`}>
                     <h4 className="text-2xl md:text-3xl font-bold text-white mb-4">
                       {service.name} {service.subtitle}
                     </h4>
@@ -127,7 +135,7 @@ export default function Services() {
                     </p>
                   </div>
                   {service.hoverImage && (
-                    <div className="md:w-1/2 flex items-center justify-center opacity-0 group-hover:opacity-100 translate-x-16 group-hover:translate-x-0 scale-90 group-hover:scale-100 transition-all duration-1000 ease-out delay-500">
+                    <div className="hidden md:flex md:w-1/2 items-center justify-center opacity-0 group-hover:opacity-100 translate-x-16 group-hover:translate-x-0 scale-90 group-hover:scale-100 transition-all duration-1000 ease-out delay-500">
                       <Image
                         src={service.hoverImage}
                         alt={service.name}

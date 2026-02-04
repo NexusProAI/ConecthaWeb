@@ -96,6 +96,7 @@ export default function CTA() {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <button
+                id="solicitar-proposta-btn"
                 onClick={() => setIsSuccessFormOpen(true)}
                 className="group px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/50 flex items-center gap-2"
               >
@@ -104,6 +105,7 @@ export default function CTA() {
               </button>
 
               <button
+                id="seja-parceiro-btn"
                 onClick={() => setIsPartnerFormOpen(true)}
                 className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white rounded-full font-semibold text-lg border-2 border-white/20 transition-all duration-300 hover:bg-white/20 hover:scale-105"
               >
